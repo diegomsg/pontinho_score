@@ -30,4 +30,16 @@ row_sizes <- map(scores, length) |> unlist(recursive = F)
 low_scores_ind <- which(row_sizes <= pl_n)
 scores[low_scores_ind] <- map(scores[low_scores_ind], ~fill_start(.x, pl_n + 1))
 
+start_score <- c(NA, rep(99, pl_n))
+names(start_score) <- c("dealer", pl_names)
+
+scores_df <- data.frame(t(sapply(scores,c))) |>
+  tidyr::unnest(1)
+
+scores_df <- tibble::tibble(t(sapply(scores,c)))
+names(scores_df) <- c("dealer", pl_names)
+dplyr::bind_rows(scores_df, start_score, .id = 1)
+tidyr::unnest(scores_df, 1)
+data.frame(t(start_score)) |>
+  dplyr::bind_rows(scores_df)
 
