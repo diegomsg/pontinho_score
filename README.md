@@ -31,3 +31,5 @@ Em txt bruto separado por espaço.
 - linha par: identificador do *dealer* da rodada, seguido da pontuação a descontar de cada jogador
 - linha ímpar: sem identificador, apenas as pontuações remanescentes após rodada
 - última linha: placar final
+
+- jogadores ausentes na rodada terão `-` marcados em lugar dos pontos
