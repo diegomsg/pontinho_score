@@ -5,41 +5,30 @@ require(purrr)
 
 # dependencias ------------------------------------------------------------
 
-
+source("fun/read_files.R")
 
 # tests -------------------------------------------------------------------
 
+## test file ---------------------------------------------------------------
 files <- fs::dir_ls("test_data")
 files <- dir("test_data", full.names = T)
 test_file <- files[1]
 
-# lines
-lines <- vroom::vroom_lines(test_file) |>
-  strsplit("\\s+")
+## content -----------------------------------------------------------------
+content <- read_score(test_file)
 
-# players
-pl_names <- lines[[1]]
-pl_n <- length(pl_names)
 
-# scores rows
-scores <- lines[2:length(lines)]
-scores_n <- length(scores)
+## name --------------------------------------------------------------------
+filename <- basename(test_file) |>
+  sub("(?<!^|[.]|/)[.][^.]+$", "", x = _, perl = TRUE)
 
-# fix scores
-row_sizes <- map(scores, length) |> unlist(recursive = F)
-low_scores_ind <- which(row_sizes <= pl_n)
-scores[low_scores_ind] <- map(scores[low_scores_ind], ~fill_start(.x, pl_n + 1))
-
-start_score <- c(NA, rep(99, pl_n))
-names(start_score) <- c("dealer", pl_names)
-
-scores_df <- data.frame(t(sapply(scores,c))) |>
-  tidyr::unnest(1)
-
-scores_df <- tibble::tibble(t(sapply(scores,c)))
-names(scores_df) <- c("dealer", pl_names)
-dplyr::bind_rows(scores_df, start_score, .id = 1)
-tidyr::unnest(scores_df, 1)
-data.frame(t(start_score)) |>
-  dplyr::bind_rows(scores_df)
+seps_regex <- "[-|_|.]"
+pattern <- glue::glue("^(?<date>\\d{2,4}{{seps_regex}}\\d{1,}[-|_]\\d{1,})(?:{{seps_regex}})(?<page>\\d*)(?:{{seps_regex}})?(?<seq>\\d*)?",
+                         .open = "{{", .close = "}}")
+matches <- stringr::str_match(filename, pattern)
+str(matches)
+id <- list(filename = matches[1],
+           date = as.Date(matches[2]),
+           page = as.integer(matches[3]),
+           seq = as.integer(matches[4]))
 
