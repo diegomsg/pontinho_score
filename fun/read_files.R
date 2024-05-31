@@ -15,6 +15,9 @@ fill_start <- function(vec, size, value = NA) {
 }
 
 read_score <- function(file) {
+  stopifnot(
+    is_file = fs::is_file(file)
+  )
   lines <- vroom::vroom_lines(file) |>
     strsplit("\\s+")
 
