@@ -11,6 +11,7 @@ require(dplyr)
 require(glue)
 require(stringr)
 
+
 # fun ---------------------------------------------------------------------
 
 fill_start <- function(vec, size, value = NA) {
