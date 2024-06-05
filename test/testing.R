@@ -1,6 +1,5 @@
 # bibliotecas -------------------------------------------------------------
 
-require(vctrs)
 require(purrr)
 
 # dependencias ------------------------------------------------------------
@@ -18,3 +17,4 @@ test_file <- files[1]
 content <- read_score(test_file)
 
 id <- game_id(test_file)
+
