@@ -4,6 +4,12 @@
 
 # dependencias ------------------------------------------------------------
 
+require(fs)
+require(vroom)
+require(tidyr)
+require(dplyr)
+require(glue)
+require(stringr)
 
 # fun ---------------------------------------------------------------------
 
