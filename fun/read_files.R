@@ -1,7 +1,3 @@
-
-# bibliotecas -------------------------------------------------------------
-
-
 # dependencias ------------------------------------------------------------
 
 require(fs)
@@ -10,16 +6,9 @@ require(tidyr)
 require(dplyr)
 require(glue)
 require(stringr)
-
+source("src/fill_start.R")
 
 # fun ---------------------------------------------------------------------
-
-fill_start <- function(vec, size, value = NA) {
-  # fill
-  fill_n <- size - length(vec)
-  start <- rep(value, fill_n)
-  c(start, vec)
-}
 
 read_score <- function(file) {
   stopifnot(
@@ -52,21 +41,4 @@ read_score <- function(file) {
   colnames(scores_df) <- c("dealer", pl_names)
 
   dplyr::bind_rows(start_score, scores_df)
-}
-
-game_id <- function(file) {
-  stopifnot(
-    is_file = fs::is_file(file)
-  )
-  filename <- basename(test_file) |>
-    sub("(?<!^|[.]|/)[.][^.]+$", "", x = _, perl = TRUE)
-
-  seps_regex <- "[-|_|.]"
-  pattern <- glue::glue("^(?<date>\\d{2,4}{{seps_regex}}\\d{1,}[-|_]\\d{1,})(?:{{seps_regex}})(?<page>\\d*)(?:{{seps_regex}})?(?<seq>\\d*)?",
-                        .open = "{{", .close = "}}")
-  matches <- stringr::str_match(filename, pattern)
-  list(id = matches[1],
-       date = as.Date(matches[2]),
-       page = as.integer(matches[3]),
-       seq = as.integer(matches[4]))
 }
