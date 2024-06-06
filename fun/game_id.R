@@ -1,3 +1,13 @@
+
+# depenencias -------------------------------------------------------------
+
+require(fs)
+require(glue)
+require(stringr)
+
+
+# fun ---------------------------------------------------------------------
+
 game_id <- function(file) {
   stopifnot(
     is_file = fs::is_file(file)
