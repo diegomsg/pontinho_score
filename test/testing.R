@@ -4,7 +4,7 @@ require(purrr)
 
 # dependencias ------------------------------------------------------------
 
-source("fun/read_files.R")
+source("src/read_game_info.R")
 
 # tests -------------------------------------------------------------------
 
@@ -14,7 +14,5 @@ files <- dir("test_data", full.names = T)
 test_file <- files[1]
 
 ## content -----------------------------------------------------------------
-content <- read_score(test_file)
-
-id <- game_id(test_file)
+game <- read_game_info(test_file)
 
