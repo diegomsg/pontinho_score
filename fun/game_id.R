@@ -9,10 +9,7 @@ require(stringr)
 # fun ---------------------------------------------------------------------
 
 game_id <- function(file) {
-  stopifnot(
-    is_file = fs::is_file(file)
-  )
-  filename <- basename(test_file) |>
+  filename <- basename(file) |>
     sub("(?<!^|[.]|/)[.][^.]+$", "", x = _, perl = TRUE)
 
   seps_regex <- "[-|_|.]"
