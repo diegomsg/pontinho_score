@@ -12,7 +12,7 @@ ponto <- new_class(
     win = class_logical,
     pop = class_logical
   ),
-  validator = function(self){
+  validator = function(self) {
     if(!is.na(self@x)) {
       if(self@x < 0) {"@x não pode ser menor que 0"}
       if(self@x > 99) {"@x não pode ser maior que 99"}
@@ -23,5 +23,17 @@ ponto <- new_class(
   }
 )
 
-
+mao <- new_class(
+  "mao",
+  properties = list(
+    ini = class_integer,
+    mao = class_integer,
+    fim = ponto
+  ),
+  validator = function(self) {
+    if(!is.na(self@fim)) {
+      if(self@fim@x > self@ini) {"@fim não pode ser maior que @ini"}
+    }
+  }
+)
 
