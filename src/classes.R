@@ -6,6 +6,7 @@ require(S7)
 # properties --------------------------------------------------------------
 
 prop_ponto <- new_property(
+  #pontos na mão do jogador
   class = class_integer,
   validator = function(value) {
     if(length(value) != 1) {"precisa ser unitário"}
@@ -20,29 +21,38 @@ prop_ponto <- new_property(
 
 # classes -----------------------------------------------------------------
 
+ponto_mao <- new_class(
+  "ponto_mao",
+  #pontos com estouro e acumulado na mão do jogador
+  properties = list(
+    pontos = prop_ponto,
+    estouro = new_property(
+      class = class_logical,
+      default = FALSE
+    ),
+    n_estouro = new_property(
+      class = class_integer,
+      default = 0L
+    )
+  )
+)
+
 mao <- new_class(
   "mao",
   properties = list(
-    ini = prop_ponto,
-    mao = prop_ponto,
-    fim = list(
-      informado = class_integer,
+    ponto_inicial = prop_ponto,
+    ponto_mao = ponto_mao,
+    ponto_final = list(
+      apurado = prop_ponto,
       calculado = new_property(
-        class_integer,
-        getter = function(self) {self@}
+        class = class_integer,
+        getter = function(self) {self@ponto_inicial == self@ponto_mao@pontos}
+      ),
+      validado = new_property(
+        class = class_logical,
+        getter = function(self) {self@ponto_final@apurado == self@ponto_final@calculado}
       )
     )
-    fim_informado = prop_ponto,
-    consistente = new_property(
-      class = class_logical,
-      setter = function(self) {self@fim_informado == self@ini - self@mao}
-    ),
-    fim = new_property(
-      class = ponto,
-      setter = function(self) {self@ini - self@mao}
-    ),
-    win = new_property(class_logical, default = F),
-    pop = new_property(class_logical, default = F)
   ),
   validator = function(self) {
     if(!is.na(self@fim)) {
@@ -51,6 +61,7 @@ mao <- new_class(
     if(!is.na(self@x)) {
       if(self@win) {"@x não pode bater sem pontuação"}
       # se jogador estourar e abandonar jogo, self@x = NA e self@pop = T
+    }
   }
 )
 
