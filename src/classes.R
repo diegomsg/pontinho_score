@@ -2,7 +2,6 @@
 
 require(S7)
 
-
 # properties --------------------------------------------------------------
 
 prop_ponto <- new_property(
@@ -17,7 +16,6 @@ prop_ponto <- new_property(
     # pode ser vazio, ou entre 0 e 99
   }
 )
-
 
 # classes -----------------------------------------------------------------
 
@@ -64,4 +62,3 @@ mao <- new_class(
     }
   }
 )
-

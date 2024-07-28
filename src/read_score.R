@@ -1,11 +1,5 @@
-# dependencias ------------------------------------------------------------
+# dependencias ----------------------------------------------------------
 
-require(fs)
-require(vroom)
-require(tidyr)
-require(dplyr)
-require(glue)
-require(stringr)
 source("src/fill_start.R")
 
 # fun ---------------------------------------------------------------------
@@ -23,9 +17,10 @@ read_score <- function(file) {
   scores_n <- length(scores)
 
   # fix scores
-  row_sizes <- map(scores, length) |> unlist(recursive = F)
+  row_sizes <- purrr::map(scores, length) |>
+    unlist(recursive = F)
   low_scores_ind <- which(row_sizes <= pl_n)
-  scores[low_scores_ind] <- map(scores[low_scores_ind], ~fill_start(.x, pl_n + 1))
+  scores[low_scores_ind] <- purrr::map(scores[low_scores_ind], ~fill_start(.x, pl_n + 1))
 
   # dealer col and initial points
   start_score <- c(NA, rep(99, pl_n)) |>

@@ -1,13 +1,3 @@
-
-# depenencias -------------------------------------------------------------
-
-require(fs)
-require(glue)
-require(stringr)
-
-
-# fun ---------------------------------------------------------------------
-
 game_id <- function(file) {
   filename <- basename(file) |>
     sub("(?<!^|[.]|/)[.][^.]+$", "", x = _, perl = TRUE)
